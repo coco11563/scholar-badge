@@ -1,0 +1,28 @@
+name: Update Google Scholar Badge
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天零点（UTC）自动运行
+  workflow_dispatch:      # 可手动触发
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 Python 依赖
+        run: |
+          pip install scholarly
+
+      - name: 运行同步脚本
+        run: python update_gs_citations.py
+
+      - name: 提交 badge 文件
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add gs_data_shieldsio.json
+          git commit -m "Update Google Scholar badge [auto]" || echo "No changes"
+          git push
