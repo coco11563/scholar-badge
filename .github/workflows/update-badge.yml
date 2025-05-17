@@ -5,6 +5,10 @@ on:
     - cron: "0 0 * * *"  # 每天零点（UTC）自动运行
   workflow_dispatch:      # 可手动触发
 
+permissions:
+  contents: write
+
+  
 jobs:
   update-badge:
     runs-on: ubuntu-latest
@@ -23,6 +27,8 @@ jobs:
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git add gs_data_shieldsio.json
+          git add result.json
           git commit -m "Update Google Scholar badge [auto]" || echo "No changes"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
