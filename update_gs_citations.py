@@ -10,13 +10,12 @@ def fetch_citations(user_id):
     citations = author["citedby"]
     return citations
 
-def update_badge_json(citations, filepath="gs_data_shieldsio.json"):
+def update_badge_json(citations, filepath="result.json"):
     badge = {
         "schemaVersion": 1,
         "label": "citations",
         "message": str(citations),
         "color": "9cf",
-        "logo": "Google Scholar"
     }
     with open(filepath, "w") as f:
         json.dump(badge, f, indent=2)
